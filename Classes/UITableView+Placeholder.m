@@ -60,6 +60,26 @@
 
 }
 
+- (void)placeholderBaseOnNumber:(NSInteger)numberOfRows withConf:(FETablePlaceholderConf *)conf
+{
+    [self placeholderBaseOnNumber:numberOfRows iconConfig:^(UIImageView *imageView) {
+        imageView.animationImages = conf.animImages;
+        imageView.animationDuration = conf.animDuration;
+        imageView.image = conf.placeholderImage;
+        if (conf.loadingData) {
+            [imageView startAnimating];
+        }
+        else {
+            [imageView stopAnimating];
+        }
+    } textConfig:^(UILabel *label) {
+        label.text   = conf.placeholderText;
+        label.font   = conf.placeholderFont;
+        label.textColor = conf.placeholderColor;
+        label.hidden = conf.loadingData;
+    }];
+}
+
 #pragma mark -
 #pragma mark setter/getter
 - (void)setOriginalSeparatorStyle:(UITableViewCellSeparatorStyle)originalSeparatorStyle
@@ -144,5 +164,34 @@
     CGPoint center = _placeholderLabel.center;
     center.x = self.center.x;
     _placeholderLabel.center = center;
+}
+@end
+
+
+@implementation FETablePlaceholderConf
++ (instancetype)defaultConf;
+{
+    static dispatch_once_t onceToken;
+    static FETablePlaceholderConf *sharedObject = nil;
+    dispatch_once(&onceToken, ^{
+        if (!sharedObject) {
+            sharedObject = [FETablePlaceholderConf new];
+            [sharedObject _setupDefaultValue];
+        }
+    });
+    return sharedObject;
+}
+
+- (void)_setupDefaultValue
+{
+    self.placeholderText = @"没有发现数据";
+    self.placeholderImage= nil;
+    self.animImages      = nil;
+    self.loadingData     = NO;
+    
+    self.placeholderFont = [UIFont systemFontOfSize:15];
+    self.placeholderColor= [UIColor lightGrayColor];
+    
+    self.animDuration    = 2;
 }
 @end
