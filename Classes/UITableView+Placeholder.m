@@ -52,6 +52,7 @@
     }
     
     // change frame
+    placeholderView.tableHeaderView = self.tableHeaderView;
     placeholderView.frame = self.bounds;
 }
 
@@ -153,8 +154,12 @@
     }
     maxHeight += offset;
     
+    CGFloat imageFrameY = (CGRectGetMaxY(self.frame)-maxHeight)/2;
+    if (_tableHeaderView) {
+        imageFrameY += _tableHeaderView.bounds.size.height;
+    }
     _placeholderImageView.frame = CGRectMake((CGRectGetMaxX(self.frame)-_placeholderImageView.image.size.width)/2,
-                                             (CGRectGetMaxY(self.frame)-maxHeight)/2,
+                                             imageFrameY,
                                              _placeholderImageView.image.size.width,
                                              _placeholderImageView.image.size.height);
     _placeholderLabel.frame = CGRectMake(0,

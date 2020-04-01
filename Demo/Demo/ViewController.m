@@ -31,6 +31,11 @@
     tableView.dataSource = self;
     [self.view addSubview:tableView];
     
+    // add headerView
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 200)];
+    [headerView setBackgroundColor:[UIColor orangeColor]];
+    tableView.tableHeaderView = headerView;
+    
     [FETablePlaceholderConf defaultConf].loadingData = YES;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [FETablePlaceholderConf defaultConf].loadingData = NO;

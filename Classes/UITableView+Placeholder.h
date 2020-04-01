@@ -24,6 +24,7 @@
 @interface UITableViewPlaceholderView : UIView
 @property (strong, nonatomic) UIImageView *placeholderImageView; //
 @property (strong, nonatomic) UILabel     *placeholderLabel; //
+@property (weak,   nonatomic) UIView      *tableHeaderView; //
 @end
 
 
